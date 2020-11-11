@@ -11,7 +11,7 @@ const AddWilder = (): JSX.Element => {
       onSubmit={async (e: { preventDefault: () => void }) => {
         e.preventDefault()
         try {
-          const result = await axios.post('http://localhost:5000/api/wilder/create', {
+          const result = await axios.post('http://localhost:8080/api/wilder', {
             name,
             city,
           })

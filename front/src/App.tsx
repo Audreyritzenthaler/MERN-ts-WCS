@@ -11,7 +11,7 @@ const App = (): JSX.Element => {
   useEffect(() => {
     const fetchWilders = async () => {
       try {
-        const result = await axios('http://localhost:5000/api/wilder/read')
+        const result = await axios('http://localhost:8080/api/wilder')
         setWilders(result.data.result)
       } catch (error) {
         console.log(error)
