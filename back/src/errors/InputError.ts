@@ -5,6 +5,7 @@ export const isInputError = (error: Error): error is InputError => {
 }
 class InputError extends Error {
   validationErrors: ValidationError[]
+
   constructor(validationErrors: ValidationError[]) {
     super('Validation errors occured in input')
     this.name = 'InputError'

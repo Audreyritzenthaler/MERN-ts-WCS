@@ -3,7 +3,7 @@ import Proptypes from 'prop-types'
 import { Badge } from './styles/elements'
 
 export type SkillProps = {
-  _id: string
+  id: string
   title: string
   votes: number
 }

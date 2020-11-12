@@ -21,6 +21,8 @@
     "tsconfigRootDir": "./"
   },
   "rules": {
+    "no-underscore-dangle": [2, { "allow": ["_id"] }],
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
-  }
+  },
+  "eslint.workingDirectories": [{ "directory": "back", "changeProcessCWD": true }]
 }

@@ -1,25 +1,45 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+// import React, { useEffect, useState } from "react";
+import React from 'react'
+// import axios from "axios";
+import { useQuery, gql } from '@apollo/client'
 import './App.css'
 import { CardRow, Container, Footer, Header } from './components/styles/elements'
 import Wilder, { WilderProps } from './components/Wilder'
 import AddWilder from './components/AddWilder'
 
-const App = (): JSX.Element => {
-  const [wilders, setWilders] = useState<WilderProps[]>([])
-
-  useEffect(() => {
-    const fetchWilders = async () => {
-      try {
-        const result = await axios('http://localhost:8080/api/wilder')
-        setWilders(result.data.result)
-      } catch (error) {
-        console.log(error)
+const ALL_WILDERS = gql`
+  query GetAllWilders {
+    allWilders {
+      id
+      name
+      city
+      skills {
+        id
+        title
+        votes
       }
     }
+  }
+`
 
-    fetchWilders()
-  }, [])
+const App = (): JSX.Element => {
+  // const [wilders, setWilders] = useState([]);
+  const { loading, error, data } = useQuery(ALL_WILDERS)
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error !</p>
+
+  // useEffect(() => {
+  //   const fetchWilders = async () => {
+  //     try {
+  //       const result = await axios("http://localhost:8080/api/wilders");
+  //       setWilders(result.data.result);
+  //     } catch (error) {
+  //       // console.log(error);
+  //     }
+  //   };
+
+  //   fetchWilders();
+  // }, []);
 
   return (
     <div>
@@ -34,8 +54,8 @@ const App = (): JSX.Element => {
       <Container>
         <h2>Wilders</h2>
         <CardRow>
-          {wilders.map((wilder) => (
-            <Wilder key={wilder._id} {...wilder} />
+          {data.allWilders.map((wilder: WilderProps) => (
+            <Wilder key={wilder.id} id={wilder.id} name={wilder.name} city={wilder.city} skills={wilder.skills} />
           ))}
         </CardRow>
       </Container>

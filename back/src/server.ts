@@ -5,6 +5,7 @@ import asyncHandler from 'express-async-handler'
 import cors from 'cors'
 import wilderController from './controllers/wilders'
 import { isInputError } from './errors/InputError'
+
 const app = express()
 
 app.use(cors())

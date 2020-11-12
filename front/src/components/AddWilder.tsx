@@ -1,33 +1,36 @@
 import React, { useState } from 'react'
-import axios from 'axios'
-import { Button, Error, Form, Input, Label } from './styles/form-elements'
+import { Button, Form, Input, Label } from './styles/form-elements'
+import { gql, useMutation } from '@apollo/client'
 
-const AddWilder = (): JSX.Element => {
+const CREATE_WILDER = gql`
+  mutation CreateWilder($input: InputWilder!) {
+    createWilder(input: $input) {
+      id
+      name
+      city
+    }
+  }
+`
+const AddWilder = () => {
   const [name, setName] = useState('')
   const [city, setCity] = useState('')
-  const [error, setError] = useState('')
+  const [createWilder, { data }] = useMutation(CREATE_WILDER)
+
   return (
     <Form
       onSubmit={async (e: { preventDefault: () => void }) => {
         e.preventDefault()
-        try {
-          const result = await axios.post('http://localhost:8080/api/wilder', {
-            name,
-            city,
-          })
-          console.log(result)
-          if (result.data.success) {
-            setError('')
-          }
-        } catch (error) {
-          if (error.response) {
-            setError(error.response.data.message)
-          } else {
-            setError(error.message)
-          }
-        }
+        createWilder({
+          variables: {
+            input: {
+              name: name,
+              city: city,
+            },
+          },
+        })
       }}
     >
+      {data && <p>wilder {data.createWilder.name} a été ajouté.e</p>}
       <Label htmlFor="name-input">Name :</Label>
       <Input
         id="name-input"
@@ -44,7 +47,6 @@ const AddWilder = (): JSX.Element => {
         value={city}
         onChange={(e: { target: { value: React.SetStateAction<string> } }) => setCity(e.target.value)}
       />
-      {error !== '' && <Error>{error}</Error>}
       <Button>Add</Button>
     </Form>
   )

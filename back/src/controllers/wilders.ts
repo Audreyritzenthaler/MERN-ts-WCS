@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import WilderModel from '../models/Wilder'
 import { plainToClass } from 'class-transformer'
 import { validate } from 'class-validator'
+import WilderModel from '../models/Wilder'
 import CreateWilderModel from './CreateWilderModel'
 import InputError from '../errors/InputError'
 
